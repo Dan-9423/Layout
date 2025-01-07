@@ -56,10 +56,10 @@ export default function Sidebar() {
   ];
 
   return (
-    <div className="w-64 bg-white dark:bg-gray-800 shadow-lg h-screen rounded-tr-2xl rounded-br-2xl">
+    <div className="w-64 bg-white dark:bg-black shadow-lg h-screen rounded-tr-2xl rounded-br-2xl">
       <div className="p-4">
         <div className="flex items-center justify-between mb-8">
-          <span className="text-xl font-bold text-blue-600 dark:text-blue-400">System Name</span>
+          <span className="text-xl font-bold text-blue-600">System Name</span>
         </div>
         <nav>
           {menuItems.map((item) => (
@@ -67,50 +67,42 @@ export default function Sidebar() {
               <button
                 onClick={() => setExpandedMenu(expandedMenu === item.title ? null : item.title)}
                 className={cn(
-                  'w-full flex items-center justify-between p-3 rounded-lg mb-1 transition-colors',
+                  'w-full flex items-center justify-between p-3 rounded-lg mb-1 transition-colors duration-100',
                   expandedMenu === item.title
-                    ? 'bg-blue-50 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400'
-                    : 'hover:bg-gray-50 dark:hover:bg-gray-700/50 text-gray-700 dark:text-gray-300'
+                    ? 'bg-blue-50 dark:bg-zinc-900 text-blue-600'
+                    : 'hover:bg-gray-50 dark:hover:bg-zinc-900 hover:text-blue-600 text-gray-700 dark:text-gray-300'
                 )}
               >
                 <div className="flex items-center gap-3">
-                  {item.icon}
-                  <span className="font-medium">{item.title}</span>
+                  <span className="transition-colors duration-100">{item.icon}</span>
+                  <span className="font-medium transition-colors duration-100">{item.title}</span>
                 </div>
                 {item.submenu && (
                   <ChevronDown
                     className={cn(
-                      'w-4 h-4 transition-transform',
+                      'w-4 h-4 transition-transform duration-100',
                       expandedMenu === item.title ? 'transform rotate-180' : ''
                     )}
                   />
                 )}
               </button>
               {item.submenu && expandedMenu === item.title && (
-                <div className="relative ml-4 mb-2">
-                  {/* Default black vertical bar */}
-                  <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gray-300 dark:bg-gray-600" />
+                <div className="ml-4 mb-2 overflow-hidden animate-slideDown">
                   {item.submenu.map((sub) => {
                     const isSelected = selectedSubmenu === sub.title;
                     return (
-                      <div key={sub.title} className="relative group">
-                        {/* Blue vertical bar on hover and selection */}
-                        <div className={cn(
-                          'absolute left-0 top-0 bottom-0 w-0.5 transition-colors',
-                          isSelected ? 'bg-blue-600' : 'bg-transparent group-hover:bg-blue-400'
-                        )} />
-                        <button
-                          onClick={() => setSelectedSubmenu(sub.title)}
-                          className={cn(
-                            'w-full text-left p-2 pl-4 rounded-lg mb-1 transition-colors text-sm',
-                            isSelected
-                              ? 'bg-blue-500 dark:bg-blue-600 text-white'
-                              : 'hover:bg-gray-50 dark:hover:bg-gray-700/50 text-gray-600 dark:text-gray-400'
-                          )}
-                        >
-                          {sub.title}
-                        </button>
-                      </div>
+                      <button
+                        key={sub.title}
+                        onClick={() => setSelectedSubmenu(sub.title)}
+                        className={cn(
+                          'w-full text-left p-2 pl-8 rounded-lg mb-1 transition-colors duration-100',
+                          isSelected
+                            ? 'bg-blue-600 text-white'
+                            : 'hover:bg-zinc-900 hover:text-blue-600 text-gray-600 dark:text-gray-400'
+                        )}
+                      >
+                        {sub.title}
+                      </button>
                     );
                   })}
                 </div>
